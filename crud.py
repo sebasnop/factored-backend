@@ -6,8 +6,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from fastapi import HTTPException, status
 
-from app.schemas import EmployeeSchema
-from app.models import Employee
+from schemas import EmployeeSchema
+from models import Employee
 
 # Configura el logger
 logger = logging.getLogger(__name__)

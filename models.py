@@ -1,7 +1,7 @@
 """Creating the database models."""
 
 from sqlalchemy import Column, Integer, String, JSON
-from app.database import Base
+from database import Base
 
 class Employee(Base):
     """Employee SQL table model."""

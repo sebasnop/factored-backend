@@ -5,10 +5,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
-from app.database import Base, engine, SessionLocal
-from app.schemas import LoginSchema, EmployeeSchema, EmployeeIdSchema
+from database import Base, engine, SessionLocal
+from schemas import LoginSchema, EmployeeSchema, EmployeeIdSchema
 
-from app import crud
+import crud
 
 Base.metadata.create_all(bind=engine)
 
