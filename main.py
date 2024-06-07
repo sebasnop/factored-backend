@@ -1,23 +1,6 @@
 """Module to start running the backend service with FastAPI."""
 
-from fastapi import FastAPI, HTTPException
+import uvicorn
 
-from .database import SessionLocal #, engine
-
-app = FastAPI()
-
-# Dependency
-def get_db():
-    """Getting SQLAlchemy database."""
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-@app.post("/login")
-async def login(username: str, password: str):
-    """Login POST request validation."""
-    if username == "admin" and password == "admin":
-        return {"message": "Login successful"}
-    raise HTTPException(status_code=401, detail="Invalid credentials")
+if __name__ == "__main__":
+    uvicorn.run("app.api:app", host="0.0.0.0", port=8000, reload=True)

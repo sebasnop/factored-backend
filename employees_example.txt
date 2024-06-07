@@ -1,0 +1,34 @@
+employees_default = [
+    {
+        "id": "1",
+        "name": "Sebastian Valencia",
+        "position": "Fullstack developer",
+        "skills": {
+          "react": "4",
+          "material-ui": "5",
+          "python": "5",
+          "fast-api": "3",
+          "sql-alchemy": "3",
+        },
+        "email": "sebastian.valencia@factored.ai",
+        "english": "B2",
+        "country": "Colombia",
+        "city": "Medellín",
+    },
+    {
+        "id": "2",
+        "name": "Sebastian Valencia",
+        "position": "Fullstack developer",
+        "skills": {
+          "react": "4",
+          "material-ui": "5",
+          "python": "5",
+          "fast-api": "3",
+          "sql-alchemy": "3",
+        },
+        "email": "sebas.valencia@factored.ai",
+        "english": "B2",
+        "country": "Colombia",
+        "city": "Medellín",
+    }
+]
