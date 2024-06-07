@@ -1,11 +1,12 @@
+"""API endpoints definition"""
+
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 from app.database import Base, engine, SessionLocal
-from app.models import Employee
-from app.schemas import EmployeeSchema, LoginSchema
+from app.schemas import LoginSchema, EmployeeSchema, EmployeeIdSchema
 
 from app import crud
 
@@ -38,10 +39,9 @@ app.add_middleware(
 )
 
 
-@app.post("/login", status_code=status.HTTP_200_OK, tags=["user"])
-async def login(user_credentials: LoginSchema):
+@app.post("/login/", status_code=status.HTTP_200_OK, tags=["user"])
+def login(user_credentials: LoginSchema):
     """Login endpoint"""
-
     email = user_credentials.email
     password = user_credentials.password
 
@@ -53,21 +53,32 @@ async def login(user_credentials: LoginSchema):
         )
 
 
-@app.post("/create_employee", response_model=EmployeeSchema, tags=["employees"])
-async def create_employee(employee_data: EmployeeSchema, db: Session = Depends(get_db)):
+@app.post("/create_employee/", response_model=EmployeeIdSchema,
+status_code=status.HTTP_201_CREATED, tags=["employees"])
+def create_employee(employee_data: EmployeeSchema, db: Session = Depends(get_db)):
     """POST endpoint for create employee"""
     return crud.create_employee(db=db, employee=employee_data)
 
-@app.get("/employees", response_model=list[EmployeeSchema], tags=["employees"])
-async def get_employees(db: Session = Depends(get_db)):
-    """GET employees endpoint"""
-    employees = db.query(Employee).all()
+
+@app.get("/employees/", response_model=list[EmployeeIdSchema],
+status_code=status.HTTP_200_OK, tags=["employees"])
+def get_employees(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    """GET endpoint for read employees"""
+    employees = crud.read_employees(db, skip=skip, limit=limit)
     return employees
 
-@app.get("/employees/{employee_id}", response_model=EmployeeSchema, tags=["employees"])
-async def get_employee(employee_id: int, db: Session = Depends(get_db)):
-    """GET an employee endpoint"""
-    employee = db.query(Employee).filter(Employee.id == employee_id).first()
-    if not employee:
+
+@app.get("/employees/{employee_id}", response_model=EmployeeSchema,
+status_code=status.HTTP_200_OK, tags=["employees"])
+def get_employee(employee_id: int, db: Session = Depends(get_db)):
+    """GET endpoint for read one employee"""
+    db_employee = crud.read_employee(db, employee_id=employee_id)
+    if db_employee is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Employee not found")
-    return employee
+    return db_employee
+
+@app.delete("/delete_employee/{employee_id}", response_model=EmployeeSchema,
+status_code=status.HTTP_200_OK, tags=["employees"])
+def delete_employee(employee_id: int, db: Session = Depends(get_db)):
+    """DELETE endpoint for delete one employee"""
+    return crud.delete_employee(db, employee_id=employee_id)

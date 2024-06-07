@@ -1,34 +1,31 @@
-employees_default = [
-    {
-        "id": "1",
-        "name": "Sebastian Valencia",
-        "position": "Fullstack developer",
-        "skills": {
-          "react": "4",
-          "material-ui": "5",
-          "python": "5",
-          "fast-api": "3",
-          "sql-alchemy": "3",
-        },
-        "email": "sebastian.valencia@factored.ai",
-        "english": "B2",
-        "country": "Colombia",
-        "city": "Medellín",
-    },
-    {
-        "id": "2",
-        "name": "Sebastian Valencia",
-        "position": "Fullstack developer",
-        "skills": {
-          "react": "4",
-          "material-ui": "5",
-          "python": "5",
-          "fast-api": "3",
-          "sql-alchemy": "3",
-        },
-        "email": "sebas.valencia@factored.ai",
-        "english": "B2",
-        "country": "Colombia",
-        "city": "Medellín",
-    }
-]
+{
+  "city": "Medellín",
+  "country": "Colombia",
+  "email": "sebastian.valencia@factored.ai",
+  "english": "B2",
+  "name": "Sebastian Valencia Zapata",
+  "position": "Fullstack developer",
+  "skills": {
+    "Analytics": 3,
+    "Backend": 3,
+    "Cloud": 3,
+    "Frontend": 4,
+    "IA": 3
+  }
+}
+
+{
+  "city": "Cartagena",
+  "country": "Colombia",
+  "email": "maria.barreto@factored.ai",
+  "english": "C1",
+  "name": "María José Barreto",
+  "position": "Admin & People Analyst",
+  "skills": {
+    "Assertivity": 5,
+    "Communication": 5,
+    "Human Resources": 5,
+    "Talent Data": 4,
+    "People Analytics": 4
+  }
+}
