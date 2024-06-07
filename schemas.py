@@ -25,7 +25,7 @@ class LoginSchema(BaseModel):
         "json_schema_extra": {
             "examples": [
                 {
-                    "email": "admin",
+                    "email": "admin@factored.ai",
                     "password": "admin",
                 },
             ]

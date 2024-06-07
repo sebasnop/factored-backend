@@ -45,7 +45,7 @@ def login(user_credentials: LoginSchema):
     email = user_credentials.email
     password = user_credentials.password
 
-    if email == "admin" and password == "admin":
+    if email == "admin@factored.ai" and password == "admin":
         return {"message": "Login successful"}
     return JSONResponse(
         content={"message": "User not authorized."},
