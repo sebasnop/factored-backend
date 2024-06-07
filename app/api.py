@@ -38,7 +38,7 @@ async def read_root() -> dict:
 
 
 @app.post("/login", status_code=status.HTTP_200_OK, tags=["user"])
-async def login(user_credentials: LoginSchema) -> dict:
+async def login(user_credentials: LoginSchema):
     """Login endpoint"""
 
     email = user_credentials.email
@@ -46,9 +46,11 @@ async def login(user_credentials: LoginSchema) -> dict:
 
     if email == "admin" and password == "admin":
         return {"message": "Login successful"}
-    raise HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="User unauthorized to log in.")
+    return JSONResponse(
+        content={"message": "User not authorized."},
+        status_code=status.HTTP_401_UNAUTHORIZED
+        )
+
 
 @app.get("/employees", response_model=list[EmployeeSchema], tags=["employees"])
 async def get_employees(db: Session = Depends(get_db)):
