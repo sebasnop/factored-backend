@@ -68,7 +68,7 @@ def get_employees(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
     return employees
 
 
-@app.get("/employees/{employee_id}", response_model=EmployeeSchema,
+@app.get("/employees/{employee_id}", response_model=EmployeeIdSchema,
 status_code=status.HTTP_200_OK, tags=["employees"])
 def get_employee(employee_id: int, db: Session = Depends(get_db)):
     """GET endpoint for read one employee"""
@@ -77,7 +77,7 @@ def get_employee(employee_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Employee not found")
     return db_employee
 
-@app.delete("/delete_employee/{employee_id}", response_model=EmployeeSchema,
+@app.delete("/delete_employee/{employee_id}", response_model=EmployeeIdSchema,
 status_code=status.HTTP_200_OK, tags=["employees"])
 def delete_employee(employee_id: int, db: Session = Depends(get_db)):
     """DELETE endpoint for delete one employee"""
