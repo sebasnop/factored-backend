@@ -3,12 +3,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
-from app.database import SessionLocal
+from app.database import Base, engine, SessionLocal
 from app.models import Employee
 from app.schemas import EmployeeSchema, LoginSchema
 
+from app import crud
+
+Base.metadata.create_all(bind=engine)
+
 app = FastAPI()
 
+
+# Dependency
 def get_db():
     """Getting SQLAlchemy database"""
     db = SessionLocal()
@@ -32,11 +38,6 @@ app.add_middleware(
 )
 
 
-@app.get("/", tags=["root"])
-async def read_root() -> dict:
-    return {"message": "Welcome to your todo list."}
-
-
 @app.post("/login", status_code=status.HTTP_200_OK, tags=["user"])
 async def login(user_credentials: LoginSchema):
     """Login endpoint"""
@@ -52,6 +53,11 @@ async def login(user_credentials: LoginSchema):
         )
 
 
+@app.post("/create_employee", response_model=EmployeeSchema, tags=["employees"])
+async def create_employee(employee_data: EmployeeSchema, db: Session = Depends(get_db)):
+    """POST endpoint for create employee"""
+    return crud.create_employee(db=db, employee=employee_data)
+
 @app.get("/employees", response_model=list[EmployeeSchema], tags=["employees"])
 async def get_employees(db: Session = Depends(get_db)):
     """GET employees endpoint"""
@@ -65,18 +71,3 @@ async def get_employee(employee_id: int, db: Session = Depends(get_db)):
     if not employee:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Employee not found")
     return employee
-
-
-@app.post("/employees", tags=["employees"])
-async def create_employee(employee_data: EmployeeSchema, db: Session = Depends(get_db)):
-    """POST an employee endpoint"""
-    new_employee = Employee(**employee_data.dict())
-    db.add(new_employee)
-    print("C")
-    try:
-        db.commit()
-        return new_employee
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST) from e
-
